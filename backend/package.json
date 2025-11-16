@@ -1,0 +1,32 @@
+{
+  "name": "cs211-cafe-menu-and-booking-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miiihawk/CS211-Cafe-Menu-and-Booking-Tracker.git"
+  },
+  "author": "Keith Perdido",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miiihawk/CS211-Cafe-Menu-and-Booking-Tracker/issues"
+  },
+  "homepage": "https://github.com/Miiihawk/CS211-Cafe-Menu-and-Booking-Tracker#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
