@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AdminHomePage() {
+function AdminHome() {
     return (
         <div>
             <h1>Admin Home Page</h1>
@@ -8,4 +8,4 @@ function AdminHomePage() {
     )
 }
 
-export default AdminHomePage
+export default AdminHome

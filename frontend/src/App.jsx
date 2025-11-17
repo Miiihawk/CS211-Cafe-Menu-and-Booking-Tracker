@@ -9,6 +9,7 @@ import SignUp from './SignUp'
 import LogIn from './LogIn'
 import Menu from './Menu'
 import Booking from './Booking'
+import Gallery from './Gallery'
 
 function App() {
 
