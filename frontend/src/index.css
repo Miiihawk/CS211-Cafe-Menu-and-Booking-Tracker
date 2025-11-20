@@ -484,6 +484,7 @@
   height: 637px;
   z-index: 2;
   position: absolute;
+  border-radius: 10px;
 }
 
 .front-page-headline2 {
