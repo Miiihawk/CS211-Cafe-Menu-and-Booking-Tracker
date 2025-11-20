@@ -1,5 +1,5 @@
-import { Admin } from "../models/Admin.js";
-import { Customer } from "../models/Customer.js";
+import { Admin } from "../models/admin.js";
+import { Customer } from "../models/customer.js";
 import * as validators from "../utils/validators.js";
 
 export async function seedAdmin(req, res) {
