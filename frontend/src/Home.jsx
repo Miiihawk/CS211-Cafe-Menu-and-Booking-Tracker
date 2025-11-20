@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
-import logoSrc from "./assets/Light LocaleCafe logo.PNG";
+import logoSrc from "./assets/Dark LocaleCafe logo.PNG";
+import footerSrc from "./assets/Footer.PNG";
 import { Link } from "react-router-dom";
 
 const Home = (props) => {
@@ -136,7 +137,8 @@ const Home = (props) => {
       </div>
 
       <footer className="front-page-footer">
-        <div className="front-page-innercontent">
+        <img src={footerSrc} alt="Footer background" className="footer-img" />
+        <div className="front-page-innercontent front-page-footer-content">
           <div className="front-page-textcontent3">
             <div className="front-page-frame2147236495">
               <span className="front-page-text41 Paragraph">

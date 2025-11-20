@@ -3,7 +3,7 @@ import "./admin_index.css";
 import logoSrc from "./assets/Light LocaleCafe logo.PNG";
 import homeBg from "./assets/homebg.png";
 
-function AdminHome() {
+function AdminDashboard() {
   return (
     <>
       <div
@@ -38,4 +38,4 @@ function AdminHome() {
   );
 }
 
-export default AdminHome;
+export default AdminDashboard;

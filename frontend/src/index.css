@@ -1,5 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Londrina+Solid:wght@100;300;400;900&display=swap");
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.front-page-container1 {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.front-page-front-page {
+  flex: 1 1 auto; 
+}
+
+.front-page-footer {
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--header-height);
+  padding: 0 5%;
+  color: #41381c !important;
+  background: #e1c78f !important;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
 .navibar {
   gap: 50px !important;
+}
+
+.navibar a {
+  color: #41381c !important;
+}
+
+.c-button {
+  background: #e4cfa3 !important;
+}
+
+.c-button:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(180deg, #e1c78f 0%, #e1c78f 100%) !important;
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.08);
 }
 
 .front-page-container1 {
@@ -560,6 +615,34 @@
   line-height: 110.00000238418579%;
 }
 
+/* footer background image fills footer area */
+.front-page-footer {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  left: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  box-sizing: border-box;
+}
+
+.front-page-footer .footer-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.front-page-footer .front-page-footer-content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
 .front-page-footer {
   width: 100vw;
   position: relative;
@@ -568,7 +651,6 @@
   margin-left: -50vw;
   margin-right: -50vw;
   box-sizing: border-box;
-
 
   gap: 100px;
   height: auto;
@@ -613,7 +695,7 @@
 }
 
 .front-page-text41 {
-  color: var(--dl-color-text-link2);
+  color: #ebc1ae;
   height: auto;
   align-self: stretch;
   text-align: left;
@@ -638,7 +720,7 @@
 }
 
 .front-page-text42 {
-  color: var(--dl-color-text-link2);
+  color: #ebc1ae;
   width: 100px;
   height: auto;
   position: absolute;
@@ -654,7 +736,7 @@
 }
 
 .front-page-text44 {
-  color: var(--dl-color-text-link2);
+  color: #ebc1ae;
   height: auto;
   text-align: left;
   line-height: 110.00000238418579%;
@@ -678,7 +760,7 @@
 }
 
 .front-page-text58 {
-  color: var(--dl-color-text-link2);
+  color: #ebc1ae;
   height: auto;
   text-align: left;
   line-height: 110.00000238418579%;
