@@ -61,7 +61,7 @@ function AdminDashboard() {
                     <a href="#" className="action-button">Menu Items</a>
                     <a href="/a_menu" className="action-button">Edit Menu Items</a>
                     <a href="/a_gallery" className="action-button">Upload Gallery</a>
-                    <a href="#" className="action-button">Log Out</a>
+                    <a href="/a_booking" className="action-button">View Booking</a>
                 </div>
             </div>
         </main>
