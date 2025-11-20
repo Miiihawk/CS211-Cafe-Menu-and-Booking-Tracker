@@ -1,7 +1,7 @@
 import React from 'react'
-import logoSrc from "./assets/Dark LocaleCafe logo.PNG";
+import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
 
-function Gallery() {
+function Menu() {
     return (
         <header className="header">
                 <a href="/" className="logo">
@@ -21,8 +21,8 @@ function Gallery() {
                     <span className="label">Log In</span>
                   </a>
                 </nav>
-        </header>
+              </header>
     )
 }
 
-export default Gallery
+export default Menu

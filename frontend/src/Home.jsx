@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.css";
-import logoSrc from "./assets/Dark LocaleCafe logo.PNG";
+import logoSrc from "./assets/Light LocaleCafe logo.PNG";
 import footerSrc from "./assets/Footer.PNG";
 import { Link } from "react-router-dom";
 
