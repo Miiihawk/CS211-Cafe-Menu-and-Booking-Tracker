@@ -7,7 +7,7 @@ function AdminDashboard() {
   return (
     <>
         <header className="header">
-          <a href="/" className="logo">
+          <a href="/a_home" className="logo">
             <img src={logoSrc} alt="LocaleCafe logo" className="header-logo" />
           </a>
 
@@ -16,7 +16,7 @@ function AdminDashboard() {
               id="for-the-selection-button-3"
               className="for-the-selection-button-3"
             ></p>
-            <a href="/">Home</a>
+            <a href="a_home">Home</a>
             <a className="c-button" href="/logout">
               <span className="label">Log Out</span>
             </a>
@@ -59,8 +59,8 @@ function AdminDashboard() {
                 </div>
                 <div className="actions-row">
                     <a href="#" className="action-button">Menu Items</a>
-                    <a href="#" className="action-button">Edit Menu Item</a>
-                    <a href="#" className="action-button">Upload Gallery</a>
+                    <a href="/a_menu" className="action-button">Edit Menu Items</a>
+                    <a href="/a_gallery" className="action-button">Upload Gallery</a>
                     <a href="#" className="action-button">Log Out</a>
                 </div>
             </div>

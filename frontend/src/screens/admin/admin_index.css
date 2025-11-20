@@ -161,7 +161,7 @@ a {
   text-decoration: none;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   box-shadow: 0 6px 16px rgba(16, 24, 40, 0.06);
   position: relative;
   z-index: 3;

@@ -1,0 +1,175 @@
+.admin-gallery-section {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
+  overflow: hidden;
+}
+
+.gallery-bg {
+  position: fixed;
+  top: var(--header-height);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: calc(100vh - var(--header-height));
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  height: calc(100vh - var(--header-height));
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 40px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+/* form layout */
+.gallery-form {
+  width: 100%;
+  max-width: 1100px;
+  color: #efe9e0;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* left column fields */
+.left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field-label {
+  color: #efe9e0;
+  font-size: 16px;
+  text-align: left;
+  padding-left: 6px;
+}
+
+/* upload box */
+.upload-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #2b1a18;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.upload-box input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.upload-placeholder {
+  font-weight: 600;
+}
+
+/* description box */
+.description-box {
+  background: rgba(255, 255, 255, 0.94);
+  border: none;
+  min-height: 220px;
+  padding: 18px;
+  color: #2b1a18;
+  resize: vertical;
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06) inset;
+}
+
+/* regular text input */
+.text-input {
+  background: rgba(255, 255, 255, 0.94);
+  border: none;
+  padding: 12px 14px;
+  border-radius: 4px;
+  color: #2b1a18;
+  font-size: 16px;
+}
+
+/* action panel on the right */
+.action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+/* unified action-button animation and look */
+.action-button {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 180px;
+  text-align: center;
+  will-change: transform, box-shadow, background-color, border-color, color;
+}
+
+.action-button:hover,
+.action-button:focus {
+  background-color: #fff;
+}
+
+.select-input {
+    font-family:'Bricolage Grotesque';
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: rgba(255, 255, 255, 0.94);
+  border: none;
+  padding: 12px 14px;
+  border-radius: 4px;
+  color: #2b1a18;
+  font-size: 16px;
+  width: 100%;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06) inset;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 6px;
+}
+
+/* ensure select looks good on small screens */
+@media (max-width: 960px) {
+  .select-input {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+}
+
+/* responsive: stack columns on small screens */
+@media (max-width: 960px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .action-panel {
+    align-items: center;
+  }
+  .gallery-overlay {
+    padding: 28px 18px;
+  }
+}
