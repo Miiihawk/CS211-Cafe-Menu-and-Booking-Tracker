@@ -17,8 +17,11 @@ const Home = (props) => {
             className="for-the-selection-button-3"
           />
           <a href="/">Home</a>
-          <a className="c-button" href="/logout">
-            <span className="label">Log Out</span>
+          <a href="/booking">Book</a>
+          <a href="/menu">Menu</a>
+          <a href="/gallery">Gallery</a>
+          <a className="c-button" href="/login">
+            <span className="label">Log In</span>
           </a>
         </nav>
       </header>

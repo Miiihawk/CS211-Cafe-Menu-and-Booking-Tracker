@@ -1,3 +1,7 @@
+.navibar {
+  gap: 50px !important;
+}
+
 .front-page-container1 {
   width: 100%;
   display: flex;
@@ -5,8 +9,6 @@
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
-
-  /* ensure content column can push footer to the bottom */
   box-sizing: border-box;
 }
 
@@ -115,7 +117,7 @@
 .front-page-textcontent1 {
   gap: 20px;
   display: flex;
-  padding: 0 0 100px;
+  padding: 0 0 110px;
   align-self: stretch;
   align-items: flex-start;
   flex-shrink: 0;
