@@ -2,7 +2,7 @@ import React from "react";
 import "./admin_booking.css";
 import "./admin_index.css";
 import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
-import bg from "../../assets/homebg.png";
+import bg from "../../assets/admin-mbg.png";
 
 export default function AdminBooking() {
   const bookings = [
