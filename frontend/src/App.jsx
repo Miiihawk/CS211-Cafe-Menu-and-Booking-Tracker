@@ -3,13 +3,17 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import AdminDashboard from './AdminDashboard'
+import AdminMenu from './AdminMenu'
+import AdminBooking from './AdminBooking'
+import AdminGallery from './AdminGallery'
 import Home from './Home'
-import AdminHome from './AdminHome'
 import SignUp from './SignUp'
 import LogIn from './LogIn'
 import Menu from './Menu'
 import Booking from './Booking'
 import Gallery from './Gallery'
+import UserDashboard from './UserDashboard'
 
 function App() {
 
@@ -17,9 +21,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<AdminHome />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
+
+        <Route path="/a_home" element={<AdminDashboard />} />
+        <Route path="/a_menu" element={<AdminMenu />} />
+        <Route path="/a_booking" element={<AdminBooking />} />
+        <Route path="/a_gallery" element={<AdminGallery />} />
+
+        <Route path="/home" element={<UserDashboard />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/gallery" element={<Gallery />} />
