@@ -1,0 +1,145 @@
+:root {
+  --header-height: 64px;
+  --card-bg: white;
+  --accent: #2b1a18;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background-color: white;
+}
+
+.header {
+  z-index: 999;
+}
+
+.login-section {
+    left: 125px;
+  position: relative;
+  height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
+  overflow: hidden;
+}
+
+.login-bg {
+  position: fixed;
+  top: var(--header-height);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: calc(100vh - var(--header-height));
+  object-fit: cover;
+  object-position: left center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.login-overlay {
+  position: absolute;
+  top: calc(var(--header-height) - 20px);
+  right: -75px;
+  left: auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 48px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.login-card {
+  width: 560px;
+  max-width: calc(100% - 64px);
+  background: transparent;
+  padding: 0 56px;
+  min-height: 900px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.login-title {
+  color: black;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+/* inputs */
+.field-label {
+  display: block;
+  text-align: left;
+  color: #222;
+  margin: 8px 0 6px;
+  font-weight: 600;
+}
+.text-input {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  border: none;
+  background: #e9e9e9;
+  padding: 8px 14px;
+  box-sizing: border-box;
+  font-size: 15px;
+  color: #222;
+  outline: none;
+  margin-bottom: 6px;
+}
+
+/* actions */
+.login-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 10px 22px;
+  border-radius: 28px;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: transform 160ms ease, box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+.btn.outline {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+.btn:hover {
+  background: black;
+  color: white;
+}
+.btn:active {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 880px) {
+  .login-overlay {
+    align-items: flex-start;
+    padding-top: 36px;
+    padding: 36px 20px;
+    top: calc(var(--header-height) - 10px);
+  }
+  .login-card {
+    width: 95%;
+    padding: 28px;
+    max-width: calc(100% - 48px);
+  }
+  .login-bg {
+    object-position: center;
+  }
+}
