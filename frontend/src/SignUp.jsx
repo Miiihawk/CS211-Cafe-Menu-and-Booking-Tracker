@@ -39,9 +39,6 @@ export default function SignUp() {
 
             <div className="login-actions">
               <button className="btn outline">Sign Up</button>
-              <a className="btn outline" href="/login">
-                Log In
-              </a>
             </div>
           </div>
         </div>
