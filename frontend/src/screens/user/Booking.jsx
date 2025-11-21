@@ -1,5 +1,5 @@
 import React from 'react'
-import logoSrc from "./assets/Dark LocaleCafe logo.PNG";
+import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
 
 function Booking() {
     return (
