@@ -30,16 +30,20 @@ export async function register(req, res) {
   try {
     const {
       /*username,*/ email,
-      password /*first_name, last_name, phone, address*/,
+      password,
+      first_name,
+      last_name,
+      phone,
+      //address,
     } = req.body;
 
     if (
       //!username ||
       !email ||
-      !password
-      //!first_name ||
-      //!last_name ||
-      //!phone ||
+      !password ||
+      !first_name ||
+      !last_name ||
+      !phone
       //!address
     ) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -60,7 +64,7 @@ export async function register(req, res) {
         "Invalid password. Must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
       );
 
-    /*if (!validators.isValidPhone(phone)) errors.push("Invalid phone number");*/
+    if (!validators.isValidPhone(phone)) errors.push("Invalid phone number");
 
     if (errors.length > 0) return res.status(400).json({ message: errors });
 
@@ -68,10 +72,10 @@ export async function register(req, res) {
       /*username,*/
       email,
       password,
-      /*first_name,
+      first_name,
       last_name,
       phone,
-      address,*/
+      //address,
     });
 
     res.status(201).json({ message: "Customer registered successfully" });
