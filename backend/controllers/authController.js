@@ -4,14 +4,14 @@ import { Customer } from "../models/customer.js";
 import { Admin } from "../models/admin.js";
 import * as validators from "../utils/validators.js";
 
-function generateToken(user) {
-  const acessToken = jwt.sign(
+export async function generateTokens(user) {
+  const accessToken = jwt.sign(
     {
       id: user._id,
       role: user.role,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "20m" }
+    { expiresIn: "15m" }
   );
 
   const refreshToken = jwt.sign(
@@ -19,11 +19,11 @@ function generateToken(user) {
       id: user._id,
       role: user.role,
     },
-    process.env.JWT_SECRET,
+    process.env.JWT_REFRESH_SECRET,
     { expiresIn: "7d" }
   );
 
-  return { acessToken, refreshToken };
+  return { accessToken, refreshToken };
 }
 
 export async function register(req, res) {
@@ -33,8 +33,7 @@ export async function register(req, res) {
       password,
       first_name,
       last_name,
-      phone,
-      //address,
+      phone /*address*/,
     } = req.body;
 
     if (
@@ -51,25 +50,26 @@ export async function register(req, res) {
 
     const errors = [];
 
-    /*if (!validators.isValidUsername(username))
-      errors.push(
-        "Invalid username. Must be 3-20 characters long and can contain letters and numbers"
-      );*/
+    // if (!validators.isValidUsername(username))
+    //   errors.push("Username must be 3–20 letters/numbers");
 
-    if (!validators.isValidEmail(email))
-      errors.push("Invalid email format. Must be a valid ciit email address");
+    if (!validators.isValidEmail(email)) errors.push("Invalid email format");
 
     if (!validators.isValidPassword(password))
       errors.push(
-        "Invalid password. Must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
+        "Password must be at least 8 chars, include uppercase, lowercase, number"
       );
 
     if (!validators.isValidPhone(phone)) errors.push("Invalid phone number");
 
     if (errors.length > 0) return res.status(400).json({ message: errors });
 
+    const existing = await Customer.findByEmail(email);
+    if (existing)
+      return res.status(400).json({ message: "email already exists" });
+
     await Customer.create({
-      /*username,*/
+      //username,
       email,
       password,
       first_name,
@@ -78,7 +78,7 @@ export async function register(req, res) {
       //address,
     });
 
-    res.status(201).json({ message: "Customer registered successfully" });
+    res.status(201).json({ message: "Customer created successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -88,58 +88,55 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
-    }
+    if (!email || !password)
+      return res.status(400).json({ message: "Email and password required" });
 
-    const admin = await Admin.findByEmail({ email });
+    const admin = await Admin.findByEmail(email);
 
     if (admin && (await bcrypt.compare(password, admin.password))) {
-      const { acessToken, refreshToken } = generateToken(admin)({
-        id: admin._id,
+      const { accessToken, refreshToken } = await generateTokens({
+        _id: admin._id,
         role: "admin",
       });
 
-      res.cookie("access_token", acessToken, {
+      res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 20 * 60 * 1000, // 20 minutes
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       return res.status(200).json({
-        message: "Admin logged in successfully",
+        message: "Admin login successful",
         accessToken,
         role: "admin",
       });
     }
 
     const customer = await Customer.findByEmail(email);
-
-    if (!customer && (await bcrypt.compare(password, customer.password))) {
-      const { acessToken, refreshToken } = generateToken(customer)({
-        id: customer._id,
+    if (customer && (await bcrypt.compare(password, customer.password))) {
+      const { accessToken, refreshToken } = await generateTokens({
+        _id: customer._id,
         role: "customer",
       });
 
-      res.cookie("access_token", acessToken, {
+      res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
-        maxAge: 20 * 60 * 1000, // 20 minutes
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       return res.status(200).json({
-        message: "Customer logged in successfully",
+        message: "Customer login successful",
         accessToken,
         role: "customer",
       });
     }
 
-    res.status(401).json({ message: "Invalid email or password" });
+    return res.status(401).json({ message: "Invalid email or password" });
   } catch (error) {
+    console.error("Login error:", error);
     res.status(500).json({ message: "Server error" });
   }
 }
@@ -151,13 +148,11 @@ export async function getUserProfile(req, res) {
     const Model = role === "admin" ? Admin : Customer;
     const user = await Model.findById(id);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    const { password, ...userData } = user;
+    const { password, ...userData } = user.toObject();
 
-    res.status(200).json({ user: userData });
+    res.status(200).json(userData);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -165,41 +160,43 @@ export async function getUserProfile(req, res) {
 
 export async function refreshToken(req, res) {
   try {
-    const token = req.cookies.refresh_token;
+    const token = req.cookies.refreshToken;
 
-    if (!token) {
-      return res.status(401).json({ message: "Refresh token missing" });
-    }
+    if (!token)
+      return res.status(401).json({ message: "Missing refresh token" });
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res
-          .status(403)
-          .json({ message: "Invalid/Expired refresh token" });
-      }
+    jwt.verify(token, process.env.JWT_REFRESH_SECRET, async (err, user) => {
+      if (err)
+        return res.status(403).json({ message: "Invalid refresh token" });
 
-      const newAccessToken = jwt.sign(
-        {
-          id: decoded.id,
-          role: decoded.role,
-        },
+      const newAccess = jwt.sign(
+        { id: user.id, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: "20m" }
+        { expiresIn: "15m" }
       );
 
-      res.status(200).json({ accessToken: newAccessToken });
+      res.status(200).json({ accessToken: newAccess });
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Refresh token error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 }
 
 export async function logout(req, res) {
-  res.clearCookie("refresh_token", {
-    httpOnly: true,
-    sameSite: "strict",
-  });
-  res.status(200).json({ message: "Logged out successfully" });
+  try {
+    const token = req.cookies.refreshToken;
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 }
 
 export async function updateProfile(req, res) {
@@ -207,34 +204,35 @@ export async function updateProfile(req, res) {
     const { id, role } = req.user;
     const updates = req.body;
 
-    if (!updates || Object.keys(updates) === 0) {
-      return res.status(400).json({ message: "No updates provided" });
-    }
+    if (!updates || Object.keys(updates).length === 0)
+      return res.status(400).json({ message: "No update data provided" });
 
     delete updates.role;
     delete updates._id;
-    delete updates.createdAt;
+    delete updates.created_at;
 
     const errors = [];
+
+    // if (updates.username && !validators.isValidUsername(updates.username))
+    //   errors.push("Invalid username");
+
     if (updates.email && !validators.isValidEmail(updates.email))
-      errors.push("Invalid email format. Must be a valid ciit email address");
+      errors.push("Invalid email");
+
     if (updates.password && !validators.isValidPassword(updates.password))
-      errors.push(
-        "Invalid password. Must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
-      );
+      errors.push("Invalid password format");
 
-    if (errors.length > 0) {
-      return res.status(400).json({ message: errors });
-    }
+    if (errors.length > 0) return res.status(400).json({ message: errors });
 
-    if (updates.password) {
+    if (updates.password)
       updates.password = await bcrypt.hash(updates.password, 10);
-    }
-    const model = (role = await Model.update(id, updates));
 
-    if (XPathResult.modifiedCount === 0) {
+    const Model = role === "admin" ? Admin : Customer;
+
+    const result = await Model.update(id, updates);
+
+    if (result.modifiedCount === 0)
       return res.status(400).json({ message: "No changes made" });
-    }
 
     res.status(200).json({ message: "Profile updated successfully" });
   } catch (error) {
@@ -247,13 +245,14 @@ export async function deleteProfile(req, res) {
     const { id, role } = req.user;
 
     const Model = role === "admin" ? Admin : Customer;
+
     const result = await Model.delete(id);
 
-    if (result.deletedCount === 0) {
+    if (result.deletedCount === 0)
       return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json({ message: "User deleted successfully" });
+
+    res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Server error" });
   }
 }

@@ -3,7 +3,7 @@ import { Customer } from "../models/customer.js";
 import * as validators from "../utils/validators.js";
 
 export async function seedAdmin(req, res) {
-  const existingAdmins = await Admin.findByEmail(process.env.ADMIN_EMAIL);
+  const existingAdmin = await Admin.findByEmail(process.env.ADMIN_EMAIL);
   if (!existingAdmin) {
     await Admin.create({
       email: process.env.ADMIN_EMAIL,
@@ -18,9 +18,9 @@ export async function seedAdmin(req, res) {
 
 export async function createAdmin(req, res) {
   try {
-    const { email, password } = req.body;
+    const { email, password, full_name } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || !full_name) {
       return res
         .status(400)
         .json({ message: "Email and password are required" });
@@ -45,6 +45,7 @@ export async function createAdmin(req, res) {
     await Admin.create({
       email,
       password,
+      full_name,
       role: "admin",
       is_active: true,
       last_login: null,

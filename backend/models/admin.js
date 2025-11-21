@@ -5,10 +5,10 @@ import bcrypt from "bcrypt";
 
 export class Admin {
   static collection() {
-    return getCollection().collection("admins");
+    return getCollection("admins");
   }
   static async findByEmail(email) {
-    return await this.collection().findOne(email);
+    return await this.collection().findOne({ email });
   }
 
   static async create(data) {
@@ -18,7 +18,9 @@ export class Admin {
       ...data,
       password: hashedPassword,
       role: "admin",
+      is_active: data.is_active ?? true,
       createdAt: new Date(),
+      last_login: data.last_login ?? null,
     };
 
     return this.collection().insertOne(admin);
@@ -31,7 +33,7 @@ export class Admin {
       throw new Error("Invalid admin ID");
     }
 
-    const updateds = {
+    const updateFields = {
       ...updates,
       updatedAt: new Date(),
     };
@@ -40,9 +42,9 @@ export class Admin {
       updates.password = await bcrypt.hash(updates.password, 10);
     }
 
-    return this.collection().updateOne(
+    const result = await this.getcollection().updateOne(
       { _id: new ObjectId(id) },
-      { $set: updateds }
+      { $set: updates }
     );
 
     if (result.matchedCount === 0) {
