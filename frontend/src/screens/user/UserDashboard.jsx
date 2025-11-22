@@ -87,7 +87,7 @@ export default function UserDashboard() {
               <div className="events-box"></div>
             </div>
             <div className="book-button-wrap">
-              <button className="action-button">Make New Reservation</button>
+              <button className="user-action-button">Make New Reservation</button>
             </div>
           </div>
         </section>

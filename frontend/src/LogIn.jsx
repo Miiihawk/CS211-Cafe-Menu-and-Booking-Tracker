@@ -22,10 +22,10 @@ export default function LogIn() {
           <div className="login-card">
             <h1 className="login-title">Log In</h1>
 
-            <label className="field-label">Email</label>
+            <label className="login-field-label">Email</label>
             <input className="text-input" type="email" name="email" />
 
-            <label className="field-label">Password</label>
+            <label className="login-field-label">Password</label>
             <input className="text-input" type="password" name="password" />
 
             <div className="login-actions">

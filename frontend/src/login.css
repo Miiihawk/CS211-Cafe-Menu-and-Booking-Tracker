@@ -38,7 +38,7 @@ body {
 .login-overlay {
   position: absolute;
   top: calc(var(--header-height) - 20px);
-  right: -75px;
+  right: 200px;
   left: auto;
   z-index: 2;
   display: flex;
@@ -67,7 +67,7 @@ body {
 }
 
 /* inputs */
-.field-label {
+.login-field-label {
   display: block;
   text-align: left;
   color: #222;
