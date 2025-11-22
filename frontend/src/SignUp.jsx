@@ -22,19 +22,19 @@ export default function SignUp() {
           <div className="login-card">
             <h1 className="login-title">Sign Up</h1>
 
-            <label className="field-label">First Name</label>
+            <label className="login-field-label">First Name</label>
             <input className="text-input" type="text" name="firstName" />
 
-            <label className="field-label">Last Name</label>
+            <label className="login-field-label">Last Name</label>
             <input className="text-input" type="text" name="lastName" />
 
-            <label className="field-label">Email</label>
+            <label className="login-field-label">Email</label>
             <input className="text-input" type="email" name="email" />
 
-            <label className="field-label">Phone Number</label>
+            <label className="login-field-label">Phone Number</label>
             <input className="text-input" type="tel" name="phone" />
 
-            <label className="field-label">Password</label>
+            <label className="login-field-label">Password</label>
             <input className="text-input" type="password" name="password" />
 
             <div className="login-actions">
