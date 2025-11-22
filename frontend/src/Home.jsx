@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.css";
 import logoSrc from "./assets/Light LocaleCafe logo.PNG";
-import footerSrc from "./assets/Footer.PNG";
+import footerBg from "./assets/Footer.PNG";
 import { Link } from "react-router-dom";
 
 export default function Home(props) {
@@ -136,50 +136,53 @@ export default function Home(props) {
         </div>
       </div>
 
-      <footer className="front-page-footer">
-        <img src={footerSrc} alt="Footer background" className="footer-img" />
-        <div className="front-page-innercontent front-page-footer-content">
-          <div className="front-page-textcontent3">
-            <div className="front-page-frame2147236495">
-              <span className="front-page-text41 Paragraph">
-                At Locale Cafe, we believe that great coffee deserves an equally great atmosphere. Situated in La Vista Pansol Resort Complex, our café provides a comfortable and inviting space for guests to enjoy freshly brewed drinks and handcrafted waffles.
-              </span>
-            </div>
-            <div className="front-page-frame2147233497">
-              <div className="front-page-frame2147233489">
-                <span className="front-page-text42 Caption">
-                  Nielsen St., Norville Subdivision La Vista - Pansol Resort
-                  Complex
-                </span>
-              </div>
-              <div className="front-page-frame21472334942">
-                <span className="front-page-text44 Caption">
-                  <span>Monday : 8am – 11pm</span>
-                  <br />
-                  <span>Tuesday : 8am – 11pm</span>
-                  <br />
-                  <span>Wednesday : 8am – 11pm</span>
-                  <br />
-                  <span>Thursday : 8am – 11pm</span>
-                  <br />
-                  <span>Friday : 8am – 11pm</span>
-                  <br />
-                  <span>Saturday : 8am – 11pm</span>
-                  <br />
-                  <span>Sunday : Closed</span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="front-page-wordmarkandlegl">
-            <div className="front-page-legalinfo">
-              <span className="front-page-text58 Caption">
-                © La Vista Pansol Resort Complex 2024
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <footer className="dashboard-footer">
+                <img src={footerBg} alt="footer" className="footer-bg" />
+                <div className="footer-content">
+                  <div className="footer-left">
+                    <h3 className="brand">Locale Cafe</h3>
+                    <p className="tagline">Coffee & Waffles</p>
+      
+                    <div className="footer-address">
+                      <p>Nielsen St., Norville Subdivision</p>
+                      <p>La Vista - Pansol Resort Complex</p>
+                    </div>
+      
+                    <div className="footer-hours">
+                      <div className="hours-row">
+                        <span className="day">Mon-Wed</span>
+                        <span className="time">5pm-8pm</span>
+                      </div>
+                      <div className="hours-row">
+                        <span className="day">Thu</span>
+                        <span className="time">5pm-10pm</span>
+                      </div>
+                      <div className="hours-row">
+                        <span className="day">Fri-Sat</span>
+                        <span className="time">5pm-Late</span>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div className="footer-right">
+                    <p className="footer-desc">
+                      At Locale Cafe, we believe that great coffee deserves an equally
+                      great atmosphere. Situated in La Vista Pansol Resort Complex,
+                      our café provides a comfortable and inviting space for guests to
+                      enjoy freshly brewed drinks and handcrafted waffles.
+                    </p>
+      
+                    <p className="footer-desc">
+                      We offer a convenient and relaxing stop for anyone looking to
+                      unwind, meet friends, or simply take a moment for themselves.
+                    </p>
+                  </div>
+                </div>
+      
+                <div className="footer-bottom">
+                  <p>©2025 |&nbsp;&nbsp;All Rights Reserved | Locale Cafe</p>
+                </div>
+              </footer>
     </>
   );
 }
