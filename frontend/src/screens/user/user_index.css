@@ -7,6 +7,11 @@
   min-height: 100vh; 
 }
 
+.hero, .bookings-section, .menu-section, .gallery-section, .profile-section {
+  scroll-margin-top: 62px;
+  height: 670px !important;
+}
+
 main {
   display: block;
   width: 100%;

@@ -32,18 +32,18 @@ export default function UserDashboard() {
             id="for-the-selection-button-3"
             className="for-the-selection-button-3"
           />
-          <a href="/">Home</a>
+          <a href="#hero">Home</a>
           <a href="#bookings-section">Book</a>
           <a href="#menu-section">Menu</a>
           <a href="#gallery-section">Gallery</a>
           <a className="c-button" href="/login">
-            <span className="label">Log In</span>
+            <span className="label">Log Out</span>
           </a>
         </nav>
       </header>
 
       <main className="user-dashboard">
-        <div className="hero" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div id="hero" className="hero" style={{ backgroundImage: `url(${heroBg})` }}>
           <div className="hero-inner">
             <h1 className="welcome">Welcome Back, User!</h1>
             <p className="subtitle">How can we help you today?</p>
