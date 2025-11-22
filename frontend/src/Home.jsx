@@ -142,9 +142,7 @@ export default function Home(props) {
           <div className="front-page-textcontent3">
             <div className="front-page-frame2147236495">
               <span className="front-page-text41 Paragraph">
-                A classic bistro influence, respect for what the changing
-                seasons and our dedicated suppliers are offering, comforting
-                dishes that work with wine.
+                At Locale Cafe, we believe that great coffee deserves an equally great atmosphere. Situated in La Vista Pansol Resort Complex, our café provides a comfortable and inviting space for guests to enjoy freshly brewed drinks and handcrafted waffles.
               </span>
             </div>
             <div className="front-page-frame2147233497">

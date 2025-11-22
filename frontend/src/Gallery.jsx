@@ -1,7 +1,7 @@
 import React from 'react'
-import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
+import logoSrc from "./assets/Light LocaleCafe logo.PNG";
 
-function Booking() {
+function Gallery() {
     return (
         <header className="header">
                 <a href="/" className="logo">
@@ -21,8 +21,8 @@ function Booking() {
                     <span className="label">Log In</span>
                   </a>
                 </nav>
-              </header>
+        </header>
     )
 }
 
-export default Booking
+export default Gallery

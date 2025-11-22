@@ -1,7 +1,7 @@
 import React from 'react'
-import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
+import logoSrc from "./assets/Light LocaleCafe logo.PNG";
 
-function Menu() {
+function Booking() {
     return (
         <header className="header">
                 <a href="/" className="logo">
@@ -25,4 +25,4 @@ function Menu() {
     )
 }
 
-export default Menu
+export default Booking
