@@ -4,7 +4,7 @@ import logoSrc from "./assets/Light LocaleCafe logo.PNG";
 import footerSrc from "./assets/Footer.PNG";
 import { Link } from "react-router-dom";
 
-const Home = (props) => {
+export default function Home(props) {
   return (
     <>
       <header className="header">
@@ -184,6 +184,4 @@ const Home = (props) => {
       </footer>
     </>
   );
-};
-
-export default Home;
+}

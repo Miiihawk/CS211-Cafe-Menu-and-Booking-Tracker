@@ -5,11 +5,9 @@
 }
 
 html,
-body,
-#root {
+body {
   height: 100%;
   margin: 0;
-  background-color: white;
 }
 
 .header {
@@ -17,7 +15,7 @@ body,
 }
 
 .login-section {
-    left: 125px;
+  left: 125px;
   position: relative;
   height: calc(100vh - var(--header-height));
   min-height: calc(100vh - var(--header-height));
