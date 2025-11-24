@@ -1,10 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Londrina+Solid:wght@100;300;400;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Imbue:opsz,wght@10..100,100..900&family=Londrina+Solid:wght@100;300;400;900&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar,
+.front-page-container1::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+html,
+body,
+#root,
+.front-page-container1 {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
 html,
 body,
 #root {
   height: 100%;
-  font-family: 'Bricolage Grotesque';
+  font-family: "Bricolage Grotesque";
+  scroll-behavior: smooth;
 }
 
 .front-page-container1 {
@@ -15,7 +45,7 @@ body,
 }
 
 .front-page-front-page {
-  flex: 1 1 auto; 
+  flex: 1 1 auto;
 }
 
 .navibar {
@@ -176,7 +206,7 @@ body,
 }
 
 .front-page-text14 {
-  font-family: 'EB Garamond';
+  font-family: "EB Garamond";
   font-style: italic;
   font-weight: 600;
   letter-spacing: -0.196px;
@@ -195,7 +225,7 @@ body,
 }
 
 .front-page-text15 {
-  font-family: 'EB Garamond';
+  font-family: "EB Garamond";
   font-style: italic;
   font-weight: 600;
   letter-spacing: -0.196px;

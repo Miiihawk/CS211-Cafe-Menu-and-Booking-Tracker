@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../index.css";
 import "./user_index.css";
 import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
@@ -20,6 +21,14 @@ export default function UserDashboard() {
     "../../assets/gallery3.PNG",
   ];
 
+  const username = localStorage.getItem("username") || "";
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    window.location.href = "/login";
+  }
+
   return (
     <>
       <header className="header">
@@ -36,16 +45,20 @@ export default function UserDashboard() {
           <a href="#bookings-section">Book</a>
           <a href="#menu-section">Menu</a>
           <a href="#gallery-section">Gallery</a>
-          <a className="c-button" href="/login">
+          <button className="c-button" onClick={handleLogout} type="button">
             <span className="label">Log Out</span>
-          </a>
+          </button>
         </nav>
       </header>
 
       <main className="user-dashboard">
-        <div id="hero" className="hero" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div
+          id="hero"
+          className="hero"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        >
           <div className="hero-inner">
-            <h1 className="welcome">Welcome Back, User!</h1>
+            <h1 className="welcome">Welcome Back, {username}!</h1>
             <p className="subtitle">How can we help you today?</p>
 
             <div className="top-row">
@@ -87,7 +100,9 @@ export default function UserDashboard() {
               <div className="events-box"></div>
             </div>
             <div className="book-button-wrap">
-              <button className="user-action-button">Make New Reservation</button>
+              <Link to="/u_booking" className="user-action-button">
+                Make New Reservation
+              </Link>
             </div>
           </div>
         </section>
