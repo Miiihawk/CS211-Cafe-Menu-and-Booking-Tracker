@@ -99,11 +99,8 @@ export default function UserBooking() {
 
     const token = localStorage.getItem("token");
     const customerId = localStorage.getItem("userId") || undefined;
-    // ensure baseUrl picks up VITE_API_URL or localhost:3000/5000 whichever your backend uses
     const baseUrl = import.meta?.env?.VITE_API_URL || "http://localhost:3000";
     const url = `${baseUrl.replace(/\/$/, "")}/bookings`;
-
-    // send snake_case fields that backend Booking model expects
     const payload = {
       customer_id: customerId,
       package_id: Number(form.pkgId),
