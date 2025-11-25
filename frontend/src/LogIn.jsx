@@ -28,8 +28,10 @@ export default function LogIn() {
       // Redirect based on role
       if (role === "admin") {
         navigate("/a_home");
-      } else {
+      } else if (role === "customer") {
         navigate("/home");
+      } else {
+        console.error("No such role exist");
       }
     } catch (error) {
       console.error(error);

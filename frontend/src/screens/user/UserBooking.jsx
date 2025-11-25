@@ -48,7 +48,7 @@ export default function UserBooking() {
     firstName: "",
     lastName: "",
     phone: "",
-    eventDate: "", // <-- added event date to form state (yyyy-mm-dd)
+    eventDate: "",
     pkgId: 1,
     quantity: 1,
     payment: "cod",

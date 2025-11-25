@@ -5,6 +5,16 @@ import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
 import bg from "../../assets/admin-mbg.png";
 
 export default function AdminBooking() {
+    async function handleLogout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("first_name");
+      localStorage.removeItem("last_name");
+      localStorage.removeItem("username");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("userId");
+      window.location.href = "/login";
+    }
+
   const bookings = [
     {
       id: 1,
@@ -40,9 +50,9 @@ export default function AdminBooking() {
         </a>
         <nav className="navibar">
           <a href="/a_home">Home</a>
-          <a className="c-button" href="/logout">
+          <button className="c-button" onClick={handleLogout} type="button">
             <span className="label">Log Out</span>
-          </a>
+          </button>
         </nav>
       </header>
 
