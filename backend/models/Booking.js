@@ -6,8 +6,8 @@ export class Booking {
     return getCollection("bookings");
   }
 
-  static bookingStatus = ["pending", "confirmed", "canceled", "completed"];
-  static paymentStatus = ["pending", "paid", "refunded"];
+  // static bookingStatus = ["pending", "confirmed", "canceled", "completed"];
+  // static paymentStatus = ["pending", "paid", "refunded"];
 
   static toObjectId(id) {
     return typeof id === "string" ? new ObjectId(id) : id;
@@ -19,19 +19,19 @@ export class Booking {
     if (!data.customer_id) {
       errors.push("Customer ID is required");
     }
-    if (
-      !data.booking_status ||
-      !this.bookingstatus.includes(data.bookingstatus)
-    ) {
-      errors.push("Invalid booking status");
-    }
+    // if (
+    //   !data.booking_status ||
+    //   !this.bookingstatus.includes(data.bookingstatus)
+    // ) {
+    //   errors.push("Invalid booking status");
+    // }
 
-    if (
-      !data.payment_status ||
-      !this.paymentStatus.includes(data.paymentStatus)
-    ) {
-      errors.push("Invalid payment status");
-    }
+    // if (
+    //   !data.payment_status ||
+    //   !this.paymentStatus.includes(data.paymentStatus)
+    // ) {
+    //   errors.push("Invalid payment status");
+    // }
 
     if (
       !data.total_amount ||
