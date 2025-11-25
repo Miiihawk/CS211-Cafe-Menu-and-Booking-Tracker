@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AdminDashboard from './screens/admin/AdminDashboard'
@@ -10,10 +8,11 @@ import AdminGallery from './screens/admin/AdminGallery'
 import Home from './Home'
 import SignUp from './SignUp'
 import LogIn from './LogIn'
-import Menu from './screens/user/Menu'
-import Booking from './screens/user/Booking'
-import Gallery from './screens/user/Gallery'
+import Menu from './Menu'
+import Booking from './Booking'
+import Gallery from './Gallery'
 import UserDashboard from './screens/user/UserDashboard'
+import UserBooking from './screens/user/UserBooking'
 
 function App() {
 
@@ -23,6 +22,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/gallery" element={<Gallery />} />
 
         <Route path="/a_home" element={<AdminDashboard />} />
         <Route path="/a_menu" element={<AdminMenu />} />
@@ -30,9 +32,8 @@ function App() {
         <Route path="/a_gallery" element={<AdminGallery />} />
 
         <Route path="/home" element={<UserDashboard />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/u_booking" element={<UserBooking />} />
+
       </Routes>
     </BrowserRouter>
   )
