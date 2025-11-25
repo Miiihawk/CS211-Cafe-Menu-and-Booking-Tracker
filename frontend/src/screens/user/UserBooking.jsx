@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./user_booking.css";
 import bookingBG from "../../assets/Bookingbg.png";
 
 export default function UserBooking() {
+  const navigate = useNavigate();
+
   const packages = [
     {
       id: 1,
@@ -62,8 +65,12 @@ export default function UserBooking() {
   const merchandiseSubtotal = selectedPackage.price * Number(form.quantity);
   const totalPayment = merchandiseSubtotal + shippingFee + handlingFee;
 
-  function update(field) {
-    return (e) => setForm((s) => ({ ...s, [field]: e.target.value }));
+  function update(field, asNumber = false) {
+    return (e) => {
+      const raw = e?.target?.value;
+      const value = asNumber ? Number(raw || 0) : raw;
+      setForm((s) => ({ ...s, [field]: value }));
+    };
   }
 
   function handlePackageSelect(id) {
@@ -73,31 +80,51 @@ export default function UserBooking() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!form.eventAddress?.trim()) {
+      alert("Please enter event address");
+      return;
+    }
     if (!form.eventDate) {
-      alert("Please select an event date.");
+      alert("Please select event date");
+      return;
+    }
+    if (!form.firstName?.trim() || !form.lastName?.trim()) {
+      alert("Please enter full name");
+      return;
+    }
+    if (!form.phone?.trim()) {
+      alert("Please enter phone");
       return;
     }
 
     const token = localStorage.getItem("token");
+    const customerId = localStorage.getItem("userId") || undefined;
+    // ensure baseUrl picks up VITE_API_URL or localhost:3000/5000 whichever your backend uses
+    const baseUrl = import.meta?.env?.VITE_API_URL || "http://localhost:3000";
+    const url = `${baseUrl.replace(/\/$/, "")}/bookings`;
+
+    // send snake_case fields that backend Booking model expects
     const payload = {
-      eventAddress: form.eventAddress,
-      eventDate: form.eventDate,
-      firstName: form.firstName,
-      lastName: form.lastName,
-      phone: form.phone,
-      packageId: Number(form.pkgId),
+      customer_id: customerId,
+      package_id: Number(form.pkgId),
       quantity: Number(form.quantity),
-      paymentMethod: form.payment,
-      merchandiseSubtotal: Number(merchandiseSubtotal),
-      shippingFee: Number(shippingFee),
-      handlingFee: Number(handlingFee),
-      totalPayment: Number(totalPayment),
-      notes: "",
+      merchandise_subtotal: Number(merchandiseSubtotal),
+      shipping_fee: Number(shippingFee),
+      handling_fee: Number(handlingFee),
+      total_amount: Number(totalPayment),
+      payment_method: form.payment,
+      payment_status: "pending",
       status: "pending",
+      event_address: form.eventAddress,
+      booking_date: form.eventDate, // backend will parse to Date
+      first_name: form.firstName,
+      last_name: form.lastName,
+      phone: form.phone,
+      notes: "",
     };
 
     try {
-      const res = await fetch("http://localhost:3000/bookings", {
+      const res = await fetch(url, {
         method: "POST",
         headers: Object.assign(
           { "Content-Type": "application/json" },
@@ -109,12 +136,13 @@ export default function UserBooking() {
       const data = await res.json();
       if (!res.ok) {
         console.error("Booking error:", data);
-        alert(`Error: ${data.message || data.error || JSON.stringify(data)}`);
+        alert(`Error: ${data.message || JSON.stringify(data)}`);
         return;
       }
 
-      console.log("Booking created:", data);
-      alert("Booking submitted successfully.");
+      alert("Booking created successfully.");
+      // redirect to user dashboard or bookings list
+      navigate("/home");
     } catch (err) {
       console.error("Network error:", err);
       alert("Network error while creating booking.");
@@ -149,9 +177,7 @@ export default function UserBooking() {
               className="input"
               type="date"
               value={form.eventDate}
-              onChange={(e) =>
-                setForm((s) => ({ ...s, eventDate: e.target.value }))
-              }
+              onChange={update("eventDate")}
               required
             />
           </div>
@@ -214,7 +240,12 @@ export default function UserBooking() {
             <h3 className="panel-title">Product Ordered</h3>
             <div className="summary-row">
               <label>Package Type:</label>
-              <select value={form.pkgId} onChange={update("pkgId")}>
+              <select
+                value={form.pkgId}
+                onChange={(e) =>
+                  setForm((s) => ({ ...s, pkgId: Number(e.target.value) }))
+                }
+              >
                 {packages.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.name}
@@ -235,7 +266,12 @@ export default function UserBooking() {
                 min="1"
                 className="qty"
                 value={form.quantity}
-                onChange={update("quantity")}
+                onChange={(e) =>
+                  setForm((s) => ({
+                    ...s,
+                    quantity: Number(e.target.value || 1),
+                  }))
+                }
               />
             </div>
 
@@ -258,7 +294,9 @@ export default function UserBooking() {
                   name="payment"
                   value="cod"
                   checked={form.payment === "cod"}
-                  onChange={update("payment")}
+                  onChange={(e) =>
+                    setForm((s) => ({ ...s, payment: e.target.value }))
+                  }
                 />
                 <span>Cash on Delivery</span>
               </label>
@@ -273,7 +311,9 @@ export default function UserBooking() {
                   name="payment"
                   value="card"
                   checked={form.payment === "card"}
-                  onChange={update("payment")}
+                  onChange={(e) =>
+                    setForm((s) => ({ ...s, payment: e.target.value }))
+                  }
                 />
                 <span>Credit/ Debit Card</span>
               </label>
@@ -288,7 +328,9 @@ export default function UserBooking() {
                   name="payment"
                   value="gcash"
                   checked={form.payment === "gcash"}
-                  onChange={update("payment")}
+                  onChange={(e) =>
+                    setForm((s) => ({ ...s, payment: e.target.value }))
+                  }
                 />
                 <span>Gcash</span>
               </label>
@@ -317,7 +359,7 @@ export default function UserBooking() {
               <button
                 type="button"
                 className="btn ghost"
-                onClick={() => window.history.back()}
+                onClick={() => navigate("/home")}
               >
                 Back to Home
               </button>
