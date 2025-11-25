@@ -2,50 +2,38 @@ import React, { useState } from "react";
 import "./login.css";
 import logoSrc from "./assets/Light LocaleCafe logo.PNG";
 import bg from "./assets/Login Signup bg.png";
+import { useState } from "react";
+import axios from "axios";
 
 export default function SignUp() {
-  const [form, setForm] = useState({
-    username: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  function update(field) {
-    return (e) => setForm((s) => ({ ...s, [field]: e.target.value }));
-  }
-
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:3000/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: form.username,
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          password: form.password,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        alert(data.message || JSON.stringify(data));
-        return;
-      }
-      // do not auto-login after signup — send user to the login page
-      alert("Sign up successful. Please log in.");
-      window.location.href = "/login";
-    } catch (err) {
-      console.error(err);
-      alert("Network error");
-    }
-  }
 
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/authentication/register`,
+
+        {
+          first_name,
+          last_name,
+          email,
+          phone,
+          password,
+        }
+      );
+
+      alert("Account created");
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Something went wrong");
+    }
+  };
   return (
     <>
       <header className="header">
@@ -64,67 +52,61 @@ export default function SignUp() {
           <div className="login-card">
             <h1 className="login-title">Sign Up</h1>
 
-            <form onSubmit={handleSubmit}>
-              <label className="login-field-label">Username</label>
-              <input
-                className="text-input"
-                type="text"
-                name="username"
-                value={form.username}
-                onChange={update("username")}
-              />
+            <label className="field-label">First Name</label>
+            <input
+              className="text-input"
+              type="text"
+              name="firstName"
+              required
+              value={first_name}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
 
-              <label className="login-field-label">First Name</label>
-              <input
-                className="text-input"
-                type="text"
-                name="firstName"
-                value={form.firstName}
-                onChange={update("firstName")}
-              />
+            <label className="field-label">Last Name</label>
+            <input
+              className="text-input"
+              type="text"
+              name="lastName"
+              required
+              value={last_name}
+              onChange={(e) => setLastName(e.target.value)}
+            />
 
-              <label className="login-field-label">Last Name</label>
-              <input
-                className="text-input"
-                type="text"
-                name="lastName"
-                value={form.lastName}
-                onChange={update("lastName")}
-              />
+            <label className="field-label">Email</label>
+            <input
+              className="text-input"
+              type="email"
+              name="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-              <label className="login-field-label">Email</label>
-              <input
-                className="text-input"
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={update("email")}
-              />
+            <label className="field-label">Phone Number</label>
+            <input
+              className="text-input"
+              type="tel"
+              name="phone"
+              required
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
 
-              <label className="login-field-label">Phone Number</label>
-              <input
-                className="text-input"
-                type="tel"
-                name="phone"
-                value={form.phone}
-                onChange={update("phone")}
-              />
+            <label className="field-label">Password</label>
+            <input
+              className="text-input"
+              type="password"
+              name="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-              <label className="login-field-label">Password</label>
-              <input
-                className="text-input"
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={update("password")}
-              />
-
-              <div className="login-actions">
-                <button className="btn outline" type="submit">
-                  Sign Up
-                </button>
-              </div>
-            </form>
+            <div className="login-actions">
+              <button className="btn outline" onClick={handleSubmit}>
+                Sign Up
+              </button>
+            </div>
           </div>
         </div>
       </main>
