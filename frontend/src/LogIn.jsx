@@ -28,8 +28,10 @@ export default function LogIn() {
       // Redirect based on role
       if (role === "admin") {
         navigate("/a_home");
-      } else {
+      } else if (role === "customer") {
         navigate("/home");
+      } else {
+        console.error("No such role exist");
       }
     } catch (error) {
       console.error(error);
@@ -56,7 +58,7 @@ export default function LogIn() {
             <h1 className="login-title">Log In</h1>
 
             <form onSubmit={submit}>
-              <label className="field-label">Email</label>
+              <label className="login-field-label">Email</label>
               <input
                 className="text-input"
                 type="email"
@@ -66,7 +68,7 @@ export default function LogIn() {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
-              <label className="field-label">Password</label>
+              <label className="login-field-label">Password</label>
               <input
                 className="text-input"
                 type="password"

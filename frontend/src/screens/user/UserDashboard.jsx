@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../../index.css";
 import "./user_index.css";
 import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
@@ -8,6 +8,7 @@ import footerBg from "../../assets/Footer.PNG";
 import coffeeImg from "../../assets/coffee-sample.PNG";
 
 export default function UserDashboard() {
+
   const menuItems = new Array(3).fill(0).map((_, i) => ({
     id: i + 1,
     name: "Name",
@@ -21,11 +22,15 @@ export default function UserDashboard() {
     "../../assets/gallery3.PNG",
   ];
 
-  const username = localStorage.getItem("username") || "";
+  const first_name = localStorage.getItem("first_name") || "";
 
-  function handleLogout() {
+  async function handleLogout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("first_name");
+    localStorage.removeItem("last_name");
     localStorage.removeItem("username");
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("userId");
     window.location.href = "/login";
   }
 
@@ -58,7 +63,7 @@ export default function UserDashboard() {
           style={{ backgroundImage: `url(${heroBg})` }}
         >
           <div className="hero-inner">
-            <h1 className="welcome">Welcome Back, {username}!</h1>
+            <h1 className="welcome">Welcome Back, {first_name}!</h1>
             <p className="subtitle">How can we help you today?</p>
 
             <div className="top-row">

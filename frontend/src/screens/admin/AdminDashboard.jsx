@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./admin_index.css";
 import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
 import homeBg from "../../assets/homebg.png";
 
 function AdminDashboard() {
-  function handleLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    localStorage.removeItem("isAdmin");
-    window.location.href = "/login";
-  }
+
+  async function handleLogout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("first_name");
+      localStorage.removeItem("last_name");
+      localStorage.removeItem("username");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("userId");
+      window.location.href = "/login";
+    }
 
   return (
     <>
