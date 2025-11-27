@@ -5,6 +5,16 @@ import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
 import menuBg from "../../assets/admin-mbg.png";
 
 export default function AdminMenu() {
+    async function handleLogout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("first_name");
+      localStorage.removeItem("last_name");
+      localStorage.removeItem("username");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("userId");
+      window.location.href = "/login";
+    }
+
   return (
     <>
       <header className="header">
@@ -14,9 +24,9 @@ export default function AdminMenu() {
 
         <nav className="navibar">
           <a href="/a_home">Home</a>
-          <a className="c-button" href="/logout">
+          <button className="c-button" onClick={handleLogout} type="button">
             <span className="label">Log Out</span>
-          </a>
+          </button>
         </nav>
       </header>
 

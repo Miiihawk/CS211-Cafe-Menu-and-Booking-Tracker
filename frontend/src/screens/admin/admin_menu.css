@@ -45,6 +45,7 @@
 
 /* form layout */
 .menu-form {
+  padding-top: 64px;
   width: 100%;
   max-width: 1100px;
   color: #201a14;
