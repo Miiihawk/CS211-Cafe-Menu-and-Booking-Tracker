@@ -185,13 +185,13 @@ export async function refreshToken(req, res) {
 
 export async function logout(req, res) {
   try {
-    const token = req.cookies.refreshToken;
-
+    // Clear the refresh token cookie
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     });
+
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.error("Logout error:", error);
