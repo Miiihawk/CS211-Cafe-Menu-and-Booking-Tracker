@@ -1,10 +1,10 @@
 .package-list {
-  display: flex;
   flex-direction: column;
   gap: 12px;
   margin-top: 8px;
-  max-height: 800px;
+  max-height: 600px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 8px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -58,21 +58,21 @@ pkg-actions {
 
 /* Custom scrollbar styling */
 .package-list::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 .package-list::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .package-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
 }
 
 .package-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 /* responsive tweaks */
@@ -85,6 +85,6 @@ pkg-actions {
     justify-content: flex-end;
   }
   .package-list {
-    max-height: 600px;
+    max-height: 500px;
   }
 }
