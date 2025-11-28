@@ -1,150 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./user_booking.css";
 import bookingBG from "../../assets/Bookingbg.png";
+import axios from "axios";
 
 export default function UserBooking() {
   const navigate = useNavigate();
 
-  const packages = [
-    {
-      id: 1,
-      name: "Package 1",
-      price: 8100,
-      items: [
-        "30 Brewed Coffee (Any Flavour of Choice)",
-        "Spanish Latte",
-        "Caramel Macchiato",
-        "Chocolate Mocha",
-        "20 Non Caffeine Drinks (Any Flavour)",
-        "Brown Sugar Milktea",
-        "Brown Sugar Milo Rawr",
-        "Strawberry Latte",
-      ],
-    },
-    {
-      id: 2,
-      name: "Package 2",
-      price: 6400,
-      items: [
-        "50 Brewed Coffee (Any Flavour of Choice)",
-        "Spanish Latte",
-        "Caramel Macchiato",
-        "Chocolate Mocha",
-      ],
-    },
-    {
-      id: 3,
-      name: "Package 3",
-      price: 7600,
-      items: [
-        "50 Non Caffeine Drinks (Any Flavour)",
-        "Brown Sugar Milktea",
-        "Brown Sugar Milo Rawr",
-        "Strawberry Latte",
-      ],
-    },
-  ];
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [form, setForm] = useState({
-    eventAddress: "",
     firstName: "",
     lastName: "",
     phone: "",
+    eventAddress: "",
     eventDate: "",
-    pkgId: 1,
+    pkgId: null,
     quantity: 1,
     payment: "cod",
   });
 
-  const shippingFee = 75;
-  const handlingFee = 60;
+  const [packages, setPackages] = useState([]);
+  const [selectedPackage, setSelectedPackage] = useState({ price: 0 });
 
-  const selectedPackage =
-    packages.find((p) => p.id === Number(form.pkgId)) || packages[0];
-  const merchandiseSubtotal = selectedPackage.price * Number(form.quantity);
+  const shippingFee = 100; // example
+  const handlingFee = 50; // example
+
+  // Calculates selected package
+  const Packages = packages.find((p) => p._id === form.pkgId);
+
+  // Calculate subtotal safely
+  const merchandiseSubtotal = Packages
+    ? selectedPackage.Package_price * form.quantity
+    : 0;
+
   const totalPayment = merchandiseSubtotal + shippingFee + handlingFee;
 
-  function update(field, asNumber = false) {
-    return (e) => {
-      const raw = e?.target?.value;
-      const value = asNumber ? Number(raw || 0) : raw;
-      setForm((s) => ({ ...s, [field]: value }));
-    };
-  }
+  // Fetch packages from backend
+  useEffect(() => {
+    async function fetchPackages() {
+      try {
+        const res = await axios.get(`${API_URL}/package`);
+        setPackages(res.data);
+        if (res.data.length > 0) {
+          setForm((s) => ({ ...s, pkgId: res.data[0]._id }));
+          setSelectedPackage(res.data[0]);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchPackages();
+  }, [API_URL]);
 
-  function handlePackageSelect(id) {
+  // Update selectedPackage whenever pkgId changes
+  useEffect(() => {
+    const pkg = packages.find((p) => p._id === form.pkgId);
+    if (pkg) setSelectedPackage(pkg);
+  }, [form.pkgId, packages]);
+
+  // Handle input changes
+  const update = (field) => (e) => {
+    setForm((s) => ({ ...s, [field]: e.target.value }));
+  };
+
+  // Select package
+  const handlePackageSelect = (id) => {
     setForm((s) => ({ ...s, pkgId: id }));
-  }
+  };
 
-  async function handleSubmit(e) {
+  // Submit booking
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.eventAddress?.trim()) {
-      alert("Please enter event address");
-      return;
-    }
-    if (!form.eventDate) {
-      alert("Please select event date");
-      return;
-    }
-    if (!form.firstName?.trim() || !form.lastName?.trim()) {
-      alert("Please enter full name");
-      return;
-    }
-    if (!form.phone?.trim()) {
-      alert("Please enter phone");
-      return;
-    }
-
-    const token = localStorage.getItem("token");
-    const customerId = localStorage.getItem("userId") || undefined;
-    const baseUrl = import.meta?.env?.VITE_API_URL || "http://localhost:3000";
-    const url = `${baseUrl.replace(/\/$/, "")}/bookings`;
-    const payload = {
-      customer_id: customerId,
-      package_id: Number(form.pkgId),
-      quantity: Number(form.quantity),
-      merchandise_subtotal: Number(merchandiseSubtotal),
-      shipping_fee: Number(shippingFee),
-      handling_fee: Number(handlingFee),
-      total_amount: Number(totalPayment),
-      payment_method: form.payment,
-      payment_status: "pending",
-      status: "pending",
-      event_address: form.eventAddress,
-      booking_date: form.eventDate, // backend will parse to Date
-      first_name: form.firstName,
-      last_name: form.lastName,
-      phone: form.phone,
-      notes: "",
-    };
-
     try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: Object.assign(
-          { "Content-Type": "application/json" },
-          token ? { Authorization: `Bearer ${token}` } : {}
-        ),
-        body: JSON.stringify(payload),
-      });
+      const token = localStorage.getItem("token");
 
-      const data = await res.json();
-      if (!res.ok) {
-        console.error("Booking error:", data);
-        alert(`Error: ${data.message || JSON.stringify(data)}`);
-        return;
-      }
-
-      alert("Booking created successfully.");
-      // redirect to user dashboard or bookings list
+      await axios.post(
+        `${API_URL}/booking`,
+        {
+          first_name: form.firstName,
+          last_name: form.lastName,
+          phone: form.phone,
+          payment_method: form.payment,
+          event_address: form.eventAddress,
+          package_id: form.pkgId,
+          booking_date: form.eventDate,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert("Booking created successfully");
       navigate("/home");
     } catch (err) {
-      console.error("Network error:", err);
-      alert("Network error while creating booking.");
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to create booking");
     }
-  }
+  };
 
   return (
     <div
@@ -210,15 +161,15 @@ export default function UserBooking() {
             <div className="package-cards">
               {packages.map((p) => (
                 <button
-                  key={p.id}
+                  key={p._id}
                   type="button"
                   className={`package-card ${
-                    Number(form.pkgId) === p.id ? "active" : ""
+                    form.pkgId === p._id ? "active" : ""
                   }`}
-                  onClick={() => handlePackageSelect(p.id)}
+                  onClick={() => handlePackageSelect(p._id)}
                 >
-                  <div className="pkg-name">{p.name}</div>
-                  <div className="pkg-price">Price: PHP {p.price}</div>
+                  <div className="pkg-name">{p.Package_name}</div>
+                  <div className="pkg-price">Price: PHP {p.Package_price}</div>
                   <div className="pkg-details">
                     <ul>
                       {p.items.map((it, i) => (
@@ -240,12 +191,12 @@ export default function UserBooking() {
               <select
                 value={form.pkgId}
                 onChange={(e) =>
-                  setForm((s) => ({ ...s, pkgId: Number(e.target.value) }))
+                  setForm((s) => ({ ...s, pkgId: e.target.value }))
                 }
               >
                 {packages.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
+                  <option key={p._id} value={p._id}>
+                    {p.Package_name}
                   </option>
                 ))}
               </select>
@@ -253,7 +204,7 @@ export default function UserBooking() {
 
             <div className="summary-row">
               <label>Unit Price:</label>
-              <div>{selectedPackage.price}</div>
+              <div>{selectedPackage.Package_price}</div>
             </div>
 
             <div className="summary-row">
@@ -281,56 +232,31 @@ export default function UserBooking() {
           <div className="panel payment-methods">
             <h3 className="panel-title">Payment Method</h3>
             <div className="payment-grid">
-              <label
-                className={`payment-option ${
-                  form.payment === "cod" ? "selected" : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value="cod"
-                  checked={form.payment === "cod"}
-                  onChange={(e) =>
-                    setForm((s) => ({ ...s, payment: e.target.value }))
-                  }
-                />
-                <span>Cash on Delivery</span>
-              </label>
-
-              <label
-                className={`payment-option ${
-                  form.payment === "card" ? "selected" : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value="card"
-                  checked={form.payment === "card"}
-                  onChange={(e) =>
-                    setForm((s) => ({ ...s, payment: e.target.value }))
-                  }
-                />
-                <span>Credit/ Debit Card</span>
-              </label>
-
-              <label
-                className={`payment-option ${
-                  form.payment === "gcash" ? "selected" : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value="gcash"
-                  checked={form.payment === "gcash"}
-                  onChange={(e) =>
-                    setForm((s) => ({ ...s, payment: e.target.value }))
-                  }
-                />
-                <span>Gcash</span>
-              </label>
+              {["cod", "card", "gcash"].map((method) => (
+                <label
+                  key={method}
+                  className={`payment-option ${
+                    form.payment === method ? "selected" : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value={method}
+                    checked={form.payment === method}
+                    onChange={(e) =>
+                      setForm((s) => ({ ...s, payment: e.target.value }))
+                    }
+                  />
+                  <span>
+                    {method === "cod"
+                      ? "Cash on Delivery"
+                      : method === "card"
+                      ? "Credit/ Debit Card"
+                      : "Gcash"}
+                  </span>
+                </label>
+              ))}
             </div>
           </div>
 

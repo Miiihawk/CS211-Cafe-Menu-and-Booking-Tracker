@@ -20,10 +20,11 @@ export default function LogIn() {
         { email, password }
       );
 
-      const { token, role } = response.data;
+      const { accessToken, role } = response.data;
 
       // Save token in localStorage (or cookies)
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("role", role);
 
       // Redirect based on role
       if (role === "admin") {
