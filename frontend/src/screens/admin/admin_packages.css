@@ -3,15 +3,21 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 8px;
+  max-height: 800px;
+  overflow-y: auto;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
 }
 
 .package-card {
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
-  color: #efe9e0;
+  color: #2c2c2c;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .pkg-left {
@@ -21,32 +27,52 @@
   max-width: calc(100% - 160px);
 }
 
-.pkg-name {
+pkg-name {
   font-weight: 700;
   font-size: 16px;
-  color: #fff;
+  color: #2c2c2c;
 }
 
-.pkg-price {
+pkg-price {
   font-size: 14px;
-  color: #efe9e0;
+  color: #6b4f3a;
+  font-weight: 600;
 }
 
-.pkg-items {
+pkg-items {
   margin-top: 6px;
   font-size: 13px;
-  color: #efe9e0;
+  color: #4a4a4a;
   opacity: 0.9;
 }
 
-.pkg-item {
+pkg-item {
   line-height: 1.3;
 }
 
-.pkg-actions {
+pkg-actions {
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+/* Custom scrollbar styling */
+.package-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.package-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.package-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.package-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* responsive tweaks */
@@ -57,5 +83,8 @@
   }
   .pkg-actions {
     justify-content: flex-end;
+  }
+  .package-list {
+    max-height: 600px;
   }
 }

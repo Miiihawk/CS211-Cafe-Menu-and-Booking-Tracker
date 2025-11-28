@@ -179,6 +179,7 @@ export default function AdminPackages() {
 
         <section className="menu-overlay">
           <form className="menu-form" onSubmit={handleCreateOrUpdate}>
+            <section className="package-form-section">
             <div className="form-row">
               <div className="field">
                 <label>Package Name</label>
@@ -263,48 +264,51 @@ export default function AdminPackages() {
             </div>
 
             <hr style={{ border: "none", height: 18 }} />
+            </section>
 
-            <h3 style={{ color: "#efe9e0", marginBottom: 12 }}>
-              Existing Packages
-            </h3>
+            <section className="package-list-section">
+                <h3 style={{ color: "#efe9e0", marginBottom: 12 }}>
+                Existing Packages
+                </h3>
 
-            <div className="package-list">
-              {packages.length === 0 && (
-                <div style={{ color: "#efe9e0" }}>No packages found</div>
-              )}
-              {packages.map((p) => (
-                <div key={p._id || p.id} className="package-card">
-                  <div className="pkg-left">
-                    <div className="pkg-name">{p.Package_name || p.name}</div>
-                    <div className="pkg-price">
-                      PHP {p.Package_price ?? p.price ?? "-"}
-                    </div>
-                    <div className="pkg-items">
-                      {(p.items || []).slice(0, 5).map((it, i) => (
-                        <div key={i} className="pkg-item">
-                          • {it}
+                <div className="package-list">
+                {packages.length === 0 && (
+                    <div style={{ color: "#efe9e0" }}>No packages found</div>
+                )}
+                {packages.map((p) => (
+                    <div key={p._id || p.id} className="package-card">
+                    <div className="pkg-left">
+                        <div className="pkg-name">{p.Package_name || p.name}</div>
+                        <div className="pkg-price">
+                        PHP {p.Package_price ?? p.price ?? "-"}
                         </div>
-                      ))}
+                        <div className="pkg-items">
+                        {(p.items || []).slice(0, 5).map((it, i) => (
+                            <div key={i} className="pkg-item">
+                            • {it}
+                            </div>
+                        ))}
+                        </div>
                     </div>
-                  </div>
 
-                  <div className="pkg-actions">
-                    <button
-                      className="action-button"
-                      onClick={() => editPackage(p)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="action-button danger"
-                      onClick={() => handleDelete(p._id || p.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                    <div className="pkg-actions">
+                        <button
+                        className="action-button"
+                        onClick={() => editPackage(p)}
+                        >
+                        Edit
+                        </button>
+                        <button
+                        className="action-button danger"
+                        onClick={() => handleDelete(p._id || p.id)}
+                        >
+                        Delete
+                        </button>
+                    </div>
+                    </div>
+                ))}
                 </div>
-              ))}
-            </div>
+            </section>
           </form>
         </section>
       </main>
