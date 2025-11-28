@@ -13,6 +13,7 @@ import Booking from './Booking'
 import Gallery from './Gallery'
 import UserDashboard from './screens/user/UserDashboard'
 import UserBooking from './screens/user/UserBooking'
+import AdminPackages from './screens/admin/AdminPackages'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/a_menu" element={<AdminMenu />} />
         <Route path="/a_booking" element={<AdminBooking />} />
         <Route path="/a_gallery" element={<AdminGallery />} />
+        <Route path="/a_packages" element={<AdminPackages />} />
 
         <Route path="/home" element={<UserDashboard />} />
         <Route path="/u_booking" element={<UserBooking />} />
