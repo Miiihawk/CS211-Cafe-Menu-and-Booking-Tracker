@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../index.css";
 import "./user_index.css";
@@ -6,8 +6,12 @@ import logoSrc from "../../assets/Light LocaleCafe logo.PNG";
 import heroBg from "../../assets/Welcome.png";
 import footerBg from "../../assets/Footer.PNG";
 import coffeeImg from "../../assets/coffee-sample.PNG";
+import axios from "axios";
 
 export default function UserDashboard() {
+  const navigate = useNavigate();
+
+  const [bookings, setBookings] = useState([]);
 
   const menuItems = new Array(3).fill(0).map((_, i) => ({
     id: i + 1,
@@ -24,14 +28,57 @@ export default function UserDashboard() {
 
   const first_name = localStorage.getItem("first_name") || "";
 
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/booking`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          }
+        );
+
+        console.log("Bookings fetched:", response.data);
+        setBookings(response.data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
   async function handleLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("first_name");
-    localStorage.removeItem("last_name");
-    localStorage.removeItem("username");
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("userId");
-    window.location.href = "/login";
+    // Check if user is logged in
+
+    try {
+      const accessToken = localStorage.getItem("token");
+
+      console.log(localStorage.getItem("token"));
+
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/authentication/logout`,
+        {}, // no body needed
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true, // send cookie too
+        }
+      );
+
+      // Clear localStorage
+      localStorage.clear();
+
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:");
+      alert("Logout failed. Please try again.");
+    }
   }
 
   return (
@@ -102,7 +149,23 @@ export default function UserDashboard() {
           <div className="bookings-container">
             <div className="your-events">
               <div className="small-label">Your Events</div>
-              <div className="events-box"></div>
+              <div className="events-box">
+                {bookings.length === 0 ? (
+                  <p>No bookings yet.</p>
+                ) : (
+                  bookings.map((b) => (
+                    <div key={b._id} className="event-card">
+                      <h4>{b.package_name || "Package"}</h4>
+                      <p>Status: {b.booking_status}</p>
+                      <p>
+                        Date: {new Date(b.booking_date).toLocaleDateString()}
+                      </p>
+                      <p>Address: {b.event_address}</p>
+                      <p>Total: ₱{b.total_amount}</p>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
             <div className="book-button-wrap">
               <Link to="/u_booking" className="user-action-button">

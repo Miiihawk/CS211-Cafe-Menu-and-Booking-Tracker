@@ -68,7 +68,18 @@ export async function getAllBookings(req, res) {
       return res.status(403).json({ message: "Unauthorized role" });
     }
 
-    res.status(200).json(bookings);
+    // Populate package_name for each booking
+    const bookingsWithPackage = await Promise.all(
+      bookings.map(async (b) => {
+        const pkg = await Package.findById(b.package_id);
+        return {
+          ...b,
+          package_name: pkg ? pkg.Package_name : "Package",
+        };
+      })
+    );
+
+    res.status(200).json(bookingsWithPackage);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -88,7 +99,14 @@ export async function getBookingById(req, res) {
       return res.status(403).json({ message: "Access denied to this booking" });
     }
 
-    res.status(200).json(booking);
+    // Populate package_name
+    const pkg = await Package.findById(booking.package_id);
+    const bookingWithPackage = {
+      ...booking,
+      package_name: pkg ? pkg.Package_name : "Package",
+    };
+
+    res.status(200).json(bookingWithPackage);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
