@@ -1,4 +1,4 @@
-import { Package } from "../models/Package";
+import { Package } from "../models/Package.js";
 
 export async function getAllPackages(req, res) {
   try {
@@ -20,6 +20,27 @@ export async function getPackageById(req, res) {
 
     res.status(200).json(packages);
   } catch {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export async function createPackage(req, res) {
+  try {
+    const { Package_name, Package_price, items } = req.body;
+
+    if (!Package_name) {
+      return res.status(400).json({ message: "Package name is required" });
+    }
+
+    await Package.create({
+      Package_name,
+      Package_price,
+      items,
+      is_active: true,
+    });
+
+    res.status(201).json({ message: "Package created successfully" });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }

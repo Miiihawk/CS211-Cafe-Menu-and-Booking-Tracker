@@ -1,4 +1,4 @@
-import { getCollection } from "../config/database";
+import { getCollection } from "../config/database.js";
 import { ObjectId } from "mongodb";
 
 export class Package {

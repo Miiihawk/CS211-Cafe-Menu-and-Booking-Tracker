@@ -7,23 +7,22 @@ const toObjectId = (id) => new ObjectId(id);
 
 export async function createBooking(req, res) {
   try {
-    const { customer_id, payment_method, event_address, package_id } = req.body;
+    const {
+      first_name,
+      last_name,
+      phone,
+      payment_method,
+      event_address,
+      package_id,
+      booking_date,
+      quantity,
+      booking_status,
+    } = req.body;
 
-    if (req.user.role === "admin") {
-      if (!customer_id) {
-        return res.status(400).json({
-          message: "customer account is required for booking",
-        });
-      }
-    } else {
-      return res.status(403).json({ message: "unauthorize role" });
-    }
-
-    const finalCustomerId =
-      req.user.role === "customer" ? req.user.id : customer_id;
-
-    if (!package_id) {
-      return res.status(400).json({ message: "Booking mush include package" });
+    if (req.user.role !== "customer") {
+      return res.status(400).json({
+        message: "customer account is required for booking",
+      });
     }
 
     if (!payment_method || !event_address || !package_id) {
@@ -36,19 +35,24 @@ export async function createBooking(req, res) {
       return res.status(404).json({ message: "Package not found" });
     }
 
-    const total_amount = packageData.package_price;
+    const total_amount = packageData.Package_price * (quantity || 1);
 
     const booking = await Booking.create({
-      customer_id: finalCustomerId,
+      customer_id: req.user.id,
+      first_name,
+      last_name,
+      phone,
       package_id: packageData._id,
       total_amount,
+      quantity: quantity || 1,
       payment_method,
-      booking_date: req.body.booking_date,
-      event_location: event_address,
+      booking_date,
+      event_address,
+      booking_status: booking_status || "pending",
     });
 
     res.status(201).json({ message: "Booking created successfully" });
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
@@ -65,7 +69,7 @@ export async function getAllBookings(req, res) {
     }
 
     res.status(200).json(bookings);
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
@@ -121,14 +125,14 @@ export async function updateBookingStatus(req, res) {
 export async function updateBookingByCustomer(req, res) {
   try {
     if (req.user.role !== "customer") {
-      return req
+      return res
         .status(403)
         .json({ message: "Only customers can update their bookings" });
     }
     const { id } = req.params;
     const updates = req.body;
 
-    const allowedFields = ["location", "payment_method", "booking_status"];
+    const allowedFields = ["event_address", "payment_method", "booking_status"];
 
     Object.keys(updates).forEach((key) => {
       if (!allowedFields.includes(key)) delete updates[key];
@@ -141,14 +145,16 @@ export async function updateBookingByCustomer(req, res) {
     }
 
     const booking = await Booking.findById(id);
+
     if (!booking) return res.status(404).json({ message: "Booking not found" });
     if (booking.customer_id.toString() !== req.user.id) {
       return res.status(403).json({ message: "Access denied to this booking" });
     }
 
     const result = await Booking.update(id, updates);
+
     res.status(200).json({ message: "Booking updated successfully" });
-  } catch {
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }

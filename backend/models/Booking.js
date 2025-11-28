@@ -1,4 +1,4 @@
-import { getCollection } from "../config/database";
+import { getCollection } from "../config/database.js";
 import { ObjectId } from "mongodb";
 
 export class Booking {
@@ -6,7 +6,7 @@ export class Booking {
     return getCollection("bookings");
   }
 
-  // static bookingStatus = ["pending", "confirmed", "canceled", "completed"];
+  static bookingStatus = ["pending", "confirmed", "canceled", "completed"];
   // static paymentStatus = ["pending", "paid", "refunded"];
 
   static toObjectId(id) {
@@ -19,12 +19,12 @@ export class Booking {
     if (!data.customer_id) {
       errors.push("Customer ID is required");
     }
-    // if (
-    //   !data.booking_status ||
-    //   !this.bookingstatus.includes(data.bookingstatus)
-    // ) {
-    //   errors.push("Invalid booking status");
-    // }
+    if (
+      !data.booking_status ||
+      !this.bookingStatus.includes(data.booking_status)
+    ) {
+      errors.push("Invalid booking status");
+    }
 
     // if (
     //   !data.payment_status ||
@@ -52,7 +52,7 @@ export class Booking {
     }
 
     //basically this is address of event
-    if (!data.location) {
+    if (!data.event_address) {
       errors.push("Location address is required");
     }
 

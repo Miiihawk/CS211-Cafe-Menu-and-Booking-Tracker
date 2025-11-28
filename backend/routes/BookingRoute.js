@@ -4,8 +4,8 @@ import { authenticateToken, requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", bookingController.getAllBookings);
-router.get("/:id", bookingController.getBookingById);
+router.get("/", authenticateToken, bookingController.getAllBookings);
+router.get("/:id", authenticateToken, bookingController.getBookingById);
 
 router.post("/", authenticateToken, bookingController.createBooking);
 router.patch("/", authenticateToken, bookingController.updateBookingByCustomer);
@@ -23,3 +23,5 @@ router.delete(
   requireAdmin,
   bookingController.deleteBooking
 );
+
+export default router;

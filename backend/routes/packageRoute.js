@@ -1,6 +1,5 @@
 import express from "express";
-import * as packageController from "../controllers/packageController";
-
+import * as packageController from "../controllers/packageController.js";
 import { authenticateToken, requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
