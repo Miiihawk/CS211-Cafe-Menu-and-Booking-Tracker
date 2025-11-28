@@ -12,6 +12,16 @@ export default function UserDashboard() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
+  const eventsBoxStyle =
+    bookings.length === 0
+      ? {
+          minHeight: 220,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 12,
+        }
+      : { minHeight: 220, maxHeight: 380, overflowY: "auto", padding: 12 };
 
   const menuItems = new Array(3).fill(0).map((_, i) => ({
     id: i + 1,
@@ -149,19 +159,49 @@ export default function UserDashboard() {
           <div className="bookings-container">
             <div className="your-events">
               <div className="small-label">Your Events</div>
-              <div className="events-box">
+              <div className="events-box" style={eventsBoxStyle}>
                 {bookings.length === 0 ? (
-                  <p>No bookings yet.</p>
+                  <p style={{ margin: 0, color: "#efe9e0" }}>
+                    No bookings yet.
+                  </p>
                 ) : (
-                  bookings.map((b) => (
-                    <div key={b._id} className="event-card">
-                      <h4>{b.package_name || "Package"}</h4>
-                      <p>Status: {b.booking_status}</p>
-                      <p>
-                        Date: {new Date(b.booking_date).toLocaleDateString()}
-                      </p>
-                      <p>Address: {b.event_address}</p>
-                      <p>Total: ₱{b.total_amount}</p>
+                  bookings.map((b, idx) => (
+                    <div key={b._id || idx} className="event-wrapper">
+                      <div className="event-card">
+                        <div className="event-card-inner">
+                          <div className="event-main">
+                            <h4 className="evt-title">
+                              {b.package_name || "Package"}
+                            </h4>
+                            <div className="evt-meta">
+                              <span className="evt-status">
+                                Status: {b.booking_status}
+                              </span>
+                              <span className="evt-date">
+                                {new Date(b.booking_date).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <div className="evt-address">
+                              Address: {b.event_address}
+                            </div>
+                          </div>
+                          <div className="event-side">
+                            <div className="evt-total">₱{b.total_amount}</div>
+                            <button
+                              className="evt-action"
+                              onClick={() => navigate(`/u_booking/${b._id}`)}
+                              type="button"
+                            >
+                              View
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* separator between bookings */}
+                      {idx < bookings.length - 1 && (
+                        <div className="event-separator" />
+                      )}
                     </div>
                   ))
                 )}
