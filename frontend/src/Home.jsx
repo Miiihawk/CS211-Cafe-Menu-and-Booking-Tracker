@@ -18,7 +18,6 @@ export default function Home(props) {
             className="for-the-selection-button-3"
           />
           <a href="/">Home</a>
-          <a href="/booking">Book</a>
           <a href="/menu">Menu</a>
           <a href="/gallery">Gallery</a>
           <a className="c-button" href="/login">
@@ -39,8 +38,8 @@ export default function Home(props) {
             </div>
 
             <div className="front-page-button-row">
-              <Link to="/booking" className="front-page-button11">
-                <span className="front-page-text16">Book</span>
+              <Link to="/gallery" className="front-page-button11">
+                <span className="front-page-text16">Gallery</span>
               </Link>
               <Link to="/menu" className="front-page-button21">
                 <span className="front-page-text17">Menu</span>
