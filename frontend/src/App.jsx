@@ -9,7 +9,6 @@ import Home from './Home'
 import SignUp from './SignUp'
 import LogIn from './LogIn'
 import Menu from './Menu'
-import Booking from './Booking'
 import Gallery from './Gallery'
 import UserDashboard from './screens/user/UserDashboard'
 import UserBooking from './screens/user/UserBooking'
@@ -24,7 +23,6 @@ function App() {
         <Route path="/register" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/menu" element={<Menu />} />
-        <Route path="/booking" element={<Booking />} />
         <Route path="/gallery" element={<Gallery />} />
 
         <Route path="/a_home" element={<AdminDashboard />} />
