@@ -8,8 +8,6 @@ import AdminGallery from './screens/admin/AdminGallery'
 import Home from './Home'
 import SignUp from './SignUp'
 import LogIn from './LogIn'
-import Menu from './Menu'
-import Gallery from './Gallery'
 import UserDashboard from './screens/user/UserDashboard'
 import UserBooking from './screens/user/UserBooking'
 import AdminPackages from './screens/admin/AdminPackages'
@@ -22,8 +20,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/gallery" element={<Gallery />} />
 
         <Route path="/a_home" element={<AdminDashboard />} />
         <Route path="/a_menu" element={<AdminMenu />} />
